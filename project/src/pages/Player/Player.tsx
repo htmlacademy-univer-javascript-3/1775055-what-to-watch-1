@@ -1,4 +1,16 @@
-function Player() {
+import { useParams } from 'react-router-dom';
+import { film } from '../../types/film';
+
+
+type PlayerProps = {
+  films: film[]
+}
+
+function Player({films}:PlayerProps) {
+  const params = useParams();
+  const FilmId = Number(params.id);
+  const filmData = films[FilmId];
+
   return (
     <div className="player">
       <video src="#" className="player__video" poster="img/player-poster.jpg" />
@@ -9,7 +21,7 @@ function Player() {
             <progress className="player__progress" value={30} max={100} />
             <div className="player__toggler" style={{left: '30%'}}>Toggler</div>
           </div>
-          <div className="player__time-value">1:30:29</div>
+          <div className="player__time-value">{filmData.runTime}</div>
         </div>
         <div className="player__controls-row">
           <button type="button" className="player__play">

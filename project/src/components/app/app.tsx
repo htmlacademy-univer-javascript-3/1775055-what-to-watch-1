@@ -2,21 +2,23 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AppRoute, AuthStatus } from '../../const';
 import AddReview from '../../pages/AddReview/AddReview';
 import Film from '../../pages/Film/Film';
+import FilmDetails from '../../pages/FilmDetails/FilmDetails';
+import FilmReviews from '../../pages/FilmReviews/FilmReviews';
 import MyList from '../../pages/MyList/MyList';
 import NotFoundPage from '../../pages/NotFoundPage/NotFoundPage';
 import Player from '../../pages/Player/Player';
 import SignIn from '../../pages/SignIn/SignIn';
 import StartScreen from '../../pages/StartScreen/StartScreen';
+import { film } from '../../types/film';
+import { addReview, review } from '../../types/review';
 import PrivateRoute from '../PrivateRoute/PrivateRoute';
 
+type AppScreenProps = {
+  films: film[]
+  reviews: review[]
+}
 
-const PromoFilmData = {
-  PROMO_FILM_TITLE: 'The Grand Budapest Hotel',
-  PROMO_FILM_GENRE: 'Drama',
-  PROMO_FILM_YEAR: '2014'
-};
-
-function App(): JSX.Element {
+function App({films, reviews}:AppScreenProps ): JSX.Element {
   return (
     <BrowserRouter>
       <Routes>
@@ -24,9 +26,7 @@ function App(): JSX.Element {
           path = {AppRoute.Main}
           element = {
             <StartScreen
-              promoFilmTitle = {PromoFilmData.PROMO_FILM_TITLE}
-              promoFilmGenre = {PromoFilmData.PROMO_FILM_GENRE}
-              promoFilmYear = {PromoFilmData.PROMO_FILM_YEAR}
+              films = {films}
             />
           }
         />
@@ -37,24 +37,39 @@ function App(): JSX.Element {
         <Route
           path = {AppRoute.MyList}
           element = {
-            <PrivateRoute authStatus={AuthStatus.NotAuth}>
-              <MyList/>
+            <PrivateRoute authStatus={AuthStatus.Auth}>
+              <MyList
+                films = {films}
+              />
             </PrivateRoute>
           }
         />
         <Route
           path = {AppRoute.Film}
-          element = {<Film/>}
+          element = {<Film films={films}/>}
+        />
+        <Route
+          path = {AppRoute.FilmDetails}
+          element = {<FilmDetails films={films}/>}
+        />
+        <Route
+          path = {AppRoute.FilmReviews}
+          element = {<FilmReviews films={films} reviews={reviews}/>}
         />
         <Route
           path = {AppRoute.Player}
-          element = {<Player/>}
+          element = {<Player films = {films}/>}
         />
         <Route
           path = {AppRoute.AddReview}
           element = {
             <PrivateRoute authStatus={AuthStatus.Auth}>
-              <AddReview/>
+              <AddReview
+                films = {films}
+                onReview={({rating, comment}:addReview) => {
+                  throw new Error(`${rating}, ${comment}`);
+                }}
+              />
             </PrivateRoute>
           }
         />

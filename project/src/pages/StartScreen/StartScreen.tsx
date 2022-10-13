@@ -1,20 +1,23 @@
+import { useNavigate } from 'react-router-dom';
+import FilmList from '../../components/FilmList/FilmList';
 import Logo from '../../components/Logo/Logo';
-import SmallFilmCard from '../../components/SmallFilmCard/SmallFilmCard';
+import { AppRoute } from '../../const';
+import { film } from '../../types/film';
 
 type StartScreenProps = {
-  promoFilmTitle: string;
-  promoFilmGenre: string;
-  promoFilmYear: string;
+  films: film[]
 }
 
-function StartScreen({promoFilmTitle,promoFilmGenre,promoFilmYear}:StartScreenProps) {
+function StartScreen({films}:StartScreenProps) {
+  const navigate = useNavigate();
+  const filmData = films[0];
   return (
     <>
       <section className="film-card">
         <div className="film-card__bg">
           <img
-            src="img/bg-the-grand-budapest-hotel.jpg"
-            alt="The Grand Budapest Hotel"
+            src={filmData.backgroundImage}
+            alt={filmData.name}
           />
         </div>
         <h1 className="visually-hidden">WTW</h1>
@@ -40,26 +43,26 @@ function StartScreen({promoFilmTitle,promoFilmGenre,promoFilmYear}:StartScreenPr
           <div className="film-card__info">
             <div className="film-card__poster">
               <img
-                src="img/the-grand-budapest-hotel-poster.jpg"
-                alt="The Grand Budapest Hotel poster"
+                src={filmData.posterImage}
+                alt={filmData.name}
                 width={218}
                 height={327}
               />
             </div>
             <div className="film-card__desc">
-              <h2 className="film-card__title">{promoFilmTitle}</h2>
+              <h2 className="film-card__title">{filmData.name}</h2>
               <p className="film-card__meta">
-                <span className="film-card__genre">{promoFilmGenre}</span>
-                <span className="film-card__year">{promoFilmYear}</span>
+                <span className="film-card__genre">{filmData.genre}</span>
+                <span className="film-card__year">{filmData.released}</span>
               </p>
               <div className="film-card__buttons">
-                <button className="btn btn--play film-card__button" type="button">
+                <button className="btn btn--play film-card__button" type="button" onClick={()=>navigate('/player/0')}>
                   <svg viewBox="0 0 19 19" width={19} height={19}>
                     <use xlinkHref="#play-s" />
                   </svg>
                   <span>Play</span>
                 </button>
-                <button className="btn btn--list film-card__button" type="button">
+                <button className="btn btn--list film-card__button" type="button" onClick={()=>navigate(AppRoute.MyList)}>
                   <svg viewBox="0 0 19 20" width={19} height={20}>
                     <use xlinkHref="#add" />
                   </svg>
@@ -126,28 +129,7 @@ function StartScreen({promoFilmTitle,promoFilmGenre,promoFilmYear}:StartScreenPr
               </a>
             </li>
           </ul>
-          <div className="catalog__films-list">
-            <SmallFilmCard/>
-            <SmallFilmCard/>
-            <SmallFilmCard/>
-            <SmallFilmCard/>
-            <SmallFilmCard/>
-            <SmallFilmCard/>
-            <SmallFilmCard/>
-            <SmallFilmCard/>
-            <SmallFilmCard/>
-            <SmallFilmCard/>
-            <SmallFilmCard/>
-            <SmallFilmCard/>
-            <SmallFilmCard/>
-            <SmallFilmCard/>
-            <SmallFilmCard/>
-            <SmallFilmCard/>
-            <SmallFilmCard/>
-            <SmallFilmCard/>
-            <SmallFilmCard/>
-            <SmallFilmCard/>
-          </div>
+          <FilmList films={films}/>
           <div className="catalog__more">
             <button className="catalog__button" type="button">
               Show more
