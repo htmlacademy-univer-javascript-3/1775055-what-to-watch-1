@@ -1,28 +1,36 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { film } from '../../types/film';
+import PreviewPlayer from '../PreviewPlayer/PreviewPlayer';
 
 type SmallFilmCardProps = {
   filmData: film
 }
 
 function SmallFilmCard({filmData}:SmallFilmCardProps) {
-  const [filmCardHover, setFilmCardHover] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
 
-  // eslint-disable-next-line no-console
-  console.log(filmCardHover);
+  let timerId: NodeJS.Timeout;
+
+  const showPreview = () => {
+    timerId = setTimeout(()=>{
+      setIsPlaying(true);
+    }, 1000);
+  };
+
+  const stopPreview = () => {
+    clearTimeout(timerId);
+    setIsPlaying(false);
+  };
+
+
   return (
     <article className="small-film-card catalog__films-card"
-      onMouseOver = {()=>{setFilmCardHover(true);}}
-      onMouseOut = {()=>{setFilmCardHover(false);}}
+      onMouseOver = {showPreview}
+      onMouseOut = {stopPreview}
     >
       <div className="small-film-card__image">
-        <img
-          src={filmData.previewImage}
-          alt={filmData.name}
-          width={280}
-          height={175}
-        />
+        <PreviewPlayer filmData={filmData} isPlaying={isPlaying}/>
       </div>
       <h3 className="small-film-card__title">
         <Link className="small-film-card__link" to={`/films/${filmData.id}`}>
