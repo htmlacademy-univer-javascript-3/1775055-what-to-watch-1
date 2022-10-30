@@ -1,20 +1,31 @@
 /* eslint-disable react/no-unescaped-entities */
 import {Link, useNavigate, useParams} from 'react-router-dom';
-import FilmList from '../../components/FilmList/FilmList';
+// import FilmList from '../../components/FilmList/FilmList';
 import Logo from '../../components/Logo/Logo';
 import { film } from '../../types/film';
 import {AppRoute} from '../../const';
 import FilmNavList from '../../components/FilmNavList/FilmNavList';
+import FilmTabs from '../../components/FilmTabs/FilmTabs';
+import { review } from '../../types/review';
+import { useState } from 'react';
+import MoreLikeThisList from '../../components/MoreLikeThisList/MoreLikeThisList';
 
 type FilmProps = {
   films: film[]
+  reviews: review[]
 }
 
-function Film({films}:FilmProps) {
+function Film({films, reviews}:FilmProps) {
   const params = useParams();
   const FilmId = Number(params.id);
   const filmData = films[FilmId];
   const navigate = useNavigate();
+  const [tab, setTab] = useState<'overview'|'details'|'reviews'>('overview');
+
+  const getType = (type: 'overview'|'details'|'reviews') => {
+    setTab(type);
+  };
+
 
   return (
     <>
@@ -78,22 +89,9 @@ function Film({films}:FilmProps) {
             </div>
             <div className="film-card__desc">
               <nav className="film-nav film-card__nav">
-                <FilmNavList FilmId={FilmId}/>
+                <FilmNavList FilmId={FilmId} getType={getType}/>
               </nav>
-              <div className="film-rating">
-                <div className="film-rating__score">{filmData.rating}</div>
-                <p className="film-rating__meta">
-                  <span className="film-rating__level">Very good</span>
-                  <span className="film-rating__count">{filmData.scoresCount} ratings</span>
-                </p>
-              </div>
-              <div className="film-card__text">
-                <p>{filmData.description}</p>
-                {/* <p>In the 1930s, the Grand Budapest Hotel is a popular European ski resort, presided over by concierge Gustave H. (Ralph Fiennes). Zero, a junior lobby boy, becomes Gustave's friend and protege.</p>
-                <p>Gustave prides himself on providing first-class service to the hotel's guests, including satisfying the sexual needs of the many elderly women who stay there. When one of Gustave's lovers dies mysteriously, Gustave finds himself the recipient of a priceless painting and the chief suspect in her murder.</p> */}
-                <p className="film-card__director"><strong>Director: {filmData.director}</strong></p>
-                <p className="film-card__starring"><strong>Starring: {filmData.starring} and other</strong></p>
-              </div>
+              <FilmTabs type={tab} filmData={filmData} reviews={reviews}/>
             </div>
           </div>
         </div>
@@ -101,7 +99,7 @@ function Film({films}:FilmProps) {
       <div className="page-content">
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
-          <FilmList films={films}/>
+          <MoreLikeThisList films={films} genre={filmData.genre} filmId={FilmId}/>
         </section>
         <footer className="page-footer">
           <div className="logo">

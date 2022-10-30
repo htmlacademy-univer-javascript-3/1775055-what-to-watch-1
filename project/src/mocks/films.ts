@@ -58,7 +58,7 @@ export const films: film[] = [
       'Bill Murray'
     ],
     runTime: 130,
-    genre: 'Comedy',
+    genre: 'Horror',
     released: 2020,
     isFavorite: false
   },{
@@ -78,7 +78,7 @@ export const films: film[] = [
       'Bill Murray'
     ],
     runTime: 87,
-    genre: 'Comedy',
+    genre: 'Horror',
     released: 2020,
     isFavorite: false
   },{
