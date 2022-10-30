@@ -2,8 +2,8 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AppRoute, AuthStatus } from '../../const';
 import AddReview from '../../pages/AddReview/AddReview';
 import Film from '../../pages/Film/Film';
-import FilmDetails from '../../pages/FilmDetails/FilmDetails';
-import FilmReviews from '../../pages/FilmReviews/FilmReviews';
+// import FilmDetails from '../../pages/FilmDetails/FilmDetails';
+// import FilmReviews from '../../pages/FilmReviews/FilmReviews';
 import MyList from '../../pages/MyList/MyList';
 import NotFoundPage from '../../pages/NotFoundPage/NotFoundPage';
 import Player from '../../pages/Player/Player';
@@ -46,15 +46,15 @@ function App({films, reviews}:AppScreenProps ): JSX.Element {
         />
         <Route
           path = {AppRoute.Film}
-          element = {<Film films={films}/>}
+          element = {<Film films={films} reviews={reviews}/>}
         />
         <Route
           path = {AppRoute.FilmDetails}
-          element = {<FilmDetails films={films}/>}
+          element = {<Film films={films} reviews={reviews}/>}
         />
         <Route
           path = {AppRoute.FilmReviews}
-          element = {<FilmReviews films={films} reviews={reviews}/>}
+          element = {<Film films={films} reviews={reviews}/>}
         />
         <Route
           path = {AppRoute.Player}
