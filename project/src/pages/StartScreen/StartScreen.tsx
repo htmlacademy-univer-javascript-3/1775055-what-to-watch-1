@@ -3,9 +3,10 @@ import { Link, useNavigate } from 'react-router-dom';
 import FilmList from '../../components/FilmList/FilmList';
 import GenresList from '../../components/GenresList/GenresList';
 import Logo from '../../components/Logo/Logo';
+import ShowMoreButton from '../../components/ui/ShowMoreButton/ShowMoreButton';
 import { AppRoute } from '../../const';
 import { useAppSelector, useAppDispatch } from '../../hooks';
-import { viewGenreFilms } from '../../store/action';
+import { resetNumberFilmsShow, viewGenreFilms } from '../../store/action';
 import { film } from '../../types/film';
 
 type StartScreenProps = {
@@ -18,10 +19,15 @@ function StartScreen({films}:StartScreenProps) {
   const dispatch = useAppDispatch();
   const genre = useAppSelector((state) => state.genre);
   const genreFilms = useAppSelector((state) => state.films);
+  const numberFilmsShow = useAppSelector((state)=>state.numberFilmsShow);
 
   useEffect(() => {
     dispatch(viewGenreFilms());
   },[genre]);
+
+  useEffect(() => {
+    dispatch(resetNumberFilmsShow());
+  },[]);
 
 
   return (
@@ -91,12 +97,8 @@ function StartScreen({films}:StartScreenProps) {
         <section className="catalog">
           <h2 className="catalog__title visually-hidden">Catalog</h2>
           <GenresList/>
-          <FilmList films={genreFilms}/>
-          <div className="catalog__more">
-            <button className="catalog__button" type="button">
-              Show more
-            </button>
-          </div>
+          <FilmList films={genreFilms} numberFilmsShow={numberFilmsShow}/>
+          {numberFilmsShow <= genreFilms.length && <ShowMoreButton/>}
         </section>
         <footer className="page-footer">
           <div className="logo">

@@ -2,8 +2,6 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AppRoute, AuthStatus } from '../../const';
 import AddReview from '../../pages/AddReview/AddReview';
 import Film from '../../pages/Film/Film';
-// import FilmDetails from '../../pages/FilmDetails/FilmDetails';
-// import FilmReviews from '../../pages/FilmReviews/FilmReviews';
 import MyList from '../../pages/MyList/MyList';
 import NotFoundPage from '../../pages/NotFoundPage/NotFoundPage';
 import Player from '../../pages/Player/Player';
@@ -40,6 +38,7 @@ function App({films, reviews}:AppScreenProps ): JSX.Element {
             <PrivateRoute authStatus={AuthStatus.Auth}>
               <MyList
                 films = {films}
+                numberFilmsShow = {films.length}
               />
             </PrivateRoute>
           }
