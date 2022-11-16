@@ -38,7 +38,7 @@ export const films: film[] = [
       'Bill Murray'
     ],
     runTime: 98,
-    genre: 'Comedy',
+    genre: 'Sci-Fi',
     released: 2011,
     isFavorite: false
   },{
@@ -98,7 +98,7 @@ export const films: film[] = [
       'Bill Murray'
     ],
     runTime: 105,
-    genre: 'Comedy',
+    genre: 'Crime',
     released: 2004,
     isFavorite: false
   },{
@@ -118,7 +118,7 @@ export const films: film[] = [
       'Bill Murray'
     ],
     runTime: 120,
-    genre: 'Comedy',
+    genre: 'Drama',
     released: 2018,
     isFavorite: false
   },{
@@ -158,7 +158,7 @@ export const films: film[] = [
       'Bill Murray'
     ],
     runTime: 118,
-    genre: 'Comedy',
+    genre: 'Romance',
     released: 2019,
     isFavorite: false
   }

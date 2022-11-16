@@ -1,6 +1,4 @@
-/* eslint-disable react/no-unescaped-entities */
 import {Link, useNavigate, useParams} from 'react-router-dom';
-// import FilmList from '../../components/FilmList/FilmList';
 import Logo from '../../components/Logo/Logo';
 import { film } from '../../types/film';
 import {AppRoute} from '../../const';
@@ -47,7 +45,7 @@ function Film({films, reviews}:FilmProps) {
                 </div>
               </li>
               <li className="user-block__item">
-                <a className="user-block__link">Sign out</a>
+                <Link to='#' className="user-block__link">Sign out</Link>
               </li>
             </ul>
           </header>
