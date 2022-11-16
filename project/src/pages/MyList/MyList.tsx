@@ -5,9 +5,10 @@ import { film } from '../../types/film';
 
 type MyListProps = {
   films: film[]
+  numberFilmsShow: number
 }
 
-function MyList({films}:MyListProps) {
+function MyList({films, numberFilmsShow}:MyListProps) {
   return (
     <div className="user-page">
       <header className="page-header user-page__head">
@@ -26,7 +27,7 @@ function MyList({films}:MyListProps) {
       </header>
       <section className="catalog">
         <h2 className="catalog__title visually-hidden">Catalog</h2>
-        <FilmList films={films}/>
+        <FilmList films={films} numberFilmsShow={films.length}/>
       </section>
       <footer className="page-footer">
         <div className="logo">
