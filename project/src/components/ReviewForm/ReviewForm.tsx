@@ -1,20 +1,29 @@
 import { FormEvent, useState } from 'react';
-import { addReview } from '../../types/review';
+import { useNavigate } from 'react-router-dom';
+import { useAppDispatch } from '../../hooks';
+import { postReviewAction } from '../../store/api-actions';
+// import { addReview } from '../../types/review';
 
 type ReviewFormProps = {
-  onReview: ({rating, comment}:addReview)=>void;
+  id: number
 };
 
-function ReviewForm({onReview}:ReviewFormProps) {
-  const [rating, setRating] = useState(0);
+function ReviewForm({id}:ReviewFormProps) {
+  const [rating, setRating] = useState(8);
   const [comment, setComment] = useState('');
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   return (
     <form
       action="#"
       className="add-review__form"
       onSubmit={(evt:FormEvent<HTMLFormElement>) =>{
         evt.preventDefault();
-        onReview({rating, comment});
+        dispatch(postReviewAction({comment, rating, id}));
+        navigate(`/films/${id}`);
+        // eslint-disable-next-line no-console
+        console.log(rating, comment);
+        // onReview({comment, rating});
       }}
     >
       <div className="rating">

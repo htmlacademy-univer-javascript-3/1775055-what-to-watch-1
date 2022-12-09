@@ -2,12 +2,13 @@ import { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import FilmList from '../../components/FilmList/FilmList';
 import GenresList from '../../components/GenresList/GenresList';
-import Logo from '../../components/Logo/Logo';
 import ShowMoreButton from '../../components/ui/ShowMoreButton/ShowMoreButton';
 import { AppRoute } from '../../const';
 import { useAppSelector, useAppDispatch } from '../../hooks';
-import { resetNumberFilmsShow, viewGenreFilms } from '../../store/action';
+import { resetNumberFilmsShow } from '../../store/action';
 import { film } from '../../types/film';
+import UserBlock from '../../components/UserBlock/UserBlock';
+import Logo from '../../components/Logo/Logo';
 
 type StartScreenProps = {
   films: film[]
@@ -15,15 +16,14 @@ type StartScreenProps = {
 
 function StartScreen({films}:StartScreenProps) {
   const navigate = useNavigate();
-  const filmData = films[0];
   const dispatch = useAppDispatch();
-  const genre = useAppSelector((state) => state.genre);
-  const genreFilms = useAppSelector((state) => state.films);
-  const numberFilmsShow = useAppSelector((state)=>state.numberFilmsShow);
 
-  useEffect(() => {
-    dispatch(viewGenreFilms());
-  },[genre]);
+  const filmData = useAppSelector((state) => state.promo);
+
+  const genre = useAppSelector((state) => state.genre);
+  let genreFilms;
+  genre === 'all' ? genreFilms = films : genreFilms = films.filter((genreFilm) => genreFilm.genre === genre);
+  const numberFilmsShow = useAppSelector((state)=>state.numberFilmsShow);
 
   useEffect(() => {
     dispatch(resetNumberFilmsShow());
@@ -42,21 +42,7 @@ function StartScreen({films}:StartScreenProps) {
         <h1 className="visually-hidden">WTW</h1>
         <header className="page-header film-card__head">
           <Logo/>
-          <ul className="user-block">
-            <li className="user-block__item">
-              <div className="user-block__avatar">
-                <img
-                  src="img/avatar.jpg"
-                  alt="User avatar"
-                  width={63}
-                  height={63}
-                />
-              </div>
-            </li>
-            <li className="user-block__item">
-              <Link to='#' className="user-block__link">Sign out</Link>
-            </li>
-          </ul>
+          <UserBlock/>
         </header>
         <div className="film-card__wrap">
           <div className="film-card__info">

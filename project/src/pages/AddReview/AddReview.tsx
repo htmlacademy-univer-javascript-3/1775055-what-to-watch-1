@@ -1,19 +1,14 @@
-import {useParams} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Logo from '../../components/Logo/Logo';
 import ReviewForm from '../../components/ReviewForm/ReviewForm';
+import UserBlock from '../../components/UserBlock/UserBlock';
 import { film } from '../../types/film';
-import { addReview } from '../../types/review';
-
 
 type AddReviewProps = {
-  films: film[]
-  onReview: ({rating, comment}:addReview)=>void;
+  filmData: film
 }
 
-function AddReview({films, onReview}:AddReviewProps) {
-  const params = useParams();
-  const FilmId = Number(params.id);
-  const filmData = films[FilmId];
+function AddReview({filmData}:AddReviewProps) {
 
   return (
     <section className="film-card film-card--full">
@@ -27,23 +22,14 @@ function AddReview({films, onReview}:AddReviewProps) {
           <nav className="breadcrumbs">
             <ul className="breadcrumbs__list">
               <li className="breadcrumbs__item">
-                <a href="film-page.html" className="breadcrumbs__link">{filmData.name}</a>
+                <Link to={`/films/${filmData.id}`} className="breadcrumbs__link">{filmData.name}</Link>
               </li>
               <li className="breadcrumbs__item">
-                <a className="breadcrumbs__link">Add review</a>
+                <Link className="breadcrumbs__link" to={''}>Add review</Link>
               </li>
             </ul>
           </nav>
-          <ul className="user-block">
-            <li className="user-block__item">
-              <div className="user-block__avatar">
-                <img src="img/avatar.jpg" alt="User avatar" width={63} height={63} />
-              </div>
-            </li>
-            <li className="user-block__item">
-              <a className="user-block__link">Sign out</a>
-            </li>
-          </ul>
+          <UserBlock/>
         </header>
         <div className="film-card__poster film-card__poster--small">
           <img
@@ -55,7 +41,7 @@ function AddReview({films, onReview}:AddReviewProps) {
         </div>
       </div>
       <div className="add-review">
-        <ReviewForm onReview={onReview}/>
+        <ReviewForm id={filmData.id}/>
       </div>
     </section>
   );
