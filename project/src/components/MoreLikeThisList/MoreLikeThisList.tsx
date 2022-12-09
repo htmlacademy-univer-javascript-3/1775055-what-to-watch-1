@@ -3,14 +3,12 @@ import { film } from '../../types/film';
 
 type FilmListProps ={
   films: film[]
-  genre: string
-  filmId: number
 }
 
-function FilmList({films, genre, filmId}:FilmListProps) {
+function FilmList({films}:FilmListProps) {
   return (
     <div className="catalog__films-list">
-      {films.filter((filmData)=>filmData.id !== filmId && filmData.genre === genre).slice(0,4).map((filmData, id) => {
+      {films.map((filmData, id) => {
         const keyValue = `${id}-${filmData.name}`;
         return (
           <SmallFilmCard

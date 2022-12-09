@@ -1,5 +1,6 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import { AppRoute, AuthStatus } from '../../const';
+import { useAppSelector } from '../../hooks';
 import AddReview from '../../pages/AddReview/AddReview';
 import Film from '../../pages/Film/Film';
 import MyList from '../../pages/MyList/MyList';
@@ -7,18 +8,28 @@ import NotFoundPage from '../../pages/NotFoundPage/NotFoundPage';
 import Player from '../../pages/Player/Player';
 import SignIn from '../../pages/SignIn/SignIn';
 import StartScreen from '../../pages/StartScreen/StartScreen';
-import { film } from '../../types/film';
-import { addReview, review } from '../../types/review';
+// import { addReview } from '../../types/review';
 import PrivateRoute from '../PrivateRoute/PrivateRoute';
+import LoadingScreen from '../../pages/LoadingScreen/LoadingScreen';
+import HistoryRouter from '../HistoryRouter/HistoryRouter';
+import browserHistory from '../../browser-history';
 
-type AppScreenProps = {
-  films: film[]
-  reviews: review[]
-}
+const isCheckedAuth = (authStatus: AuthStatus): boolean =>
+  authStatus === AuthStatus.Unknown;
 
-function App({films, reviews}:AppScreenProps ): JSX.Element {
+function App(): JSX.Element {
+  const {authStatus, isDataLoaded} = useAppSelector((state) => state);
+  const {films} = useAppSelector((state) => state);
+  const filmData = useAppSelector((state)=> state.film);
+
+  if (isCheckedAuth(authStatus) || isDataLoaded) {
+    return (
+      <LoadingScreen />
+    );
+  }
+
   return (
-    <BrowserRouter>
+    <HistoryRouter history={browserHistory}>
       <Routes>
         <Route
           path = {AppRoute.Main}
@@ -35,7 +46,7 @@ function App({films, reviews}:AppScreenProps ): JSX.Element {
         <Route
           path = {AppRoute.MyList}
           element = {
-            <PrivateRoute authStatus={AuthStatus.Auth}>
+            <PrivateRoute authStatus={authStatus}>
               <MyList
                 films = {films}
                 numberFilmsShow = {films.length}
@@ -45,15 +56,15 @@ function App({films, reviews}:AppScreenProps ): JSX.Element {
         />
         <Route
           path = {AppRoute.Film}
-          element = {<Film films={films} reviews={reviews}/>}
+          element = {<Film/>}
         />
         <Route
           path = {AppRoute.FilmDetails}
-          element = {<Film films={films} reviews={reviews}/>}
+          element = {<Film/>}
         />
         <Route
           path = {AppRoute.FilmReviews}
-          element = {<Film films={films} reviews={reviews}/>}
+          element = {<Film/>}
         />
         <Route
           path = {AppRoute.Player}
@@ -62,12 +73,12 @@ function App({films, reviews}:AppScreenProps ): JSX.Element {
         <Route
           path = {AppRoute.AddReview}
           element = {
-            <PrivateRoute authStatus={AuthStatus.Auth}>
+            <PrivateRoute authStatus={authStatus}>
               <AddReview
-                films = {films}
-                onReview={({rating, comment}:addReview) => {
-                  throw new Error(`${rating}, ${comment}`);
-                }}
+                filmData = {filmData}
+                // onReview={({comment, rating}:addReview) => {
+                //   dispatch(postReviewAction({comment, rating}));
+                // }}
               />
             </PrivateRoute>
           }
@@ -77,7 +88,7 @@ function App({films, reviews}:AppScreenProps ): JSX.Element {
           element = {<NotFoundPage/>}
         />
       </Routes>
-    </BrowserRouter>
+    </HistoryRouter>
   );
 }
 

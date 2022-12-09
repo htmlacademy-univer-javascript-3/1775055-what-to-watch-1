@@ -12,5 +12,6 @@ export type review = {
 export type addReview = {
   comment: string
   rating: number
+  id: number
 };
 

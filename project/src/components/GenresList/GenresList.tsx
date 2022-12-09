@@ -6,7 +6,7 @@ import cn from 'classnames';
 
 function GenresList() {
   const dispatch = useAppDispatch();
-  const [activeGenre, setActiveGenre] = useState<'all'|'Comedy'|'Crime'|'Documentary'|'Drama'|'Horror'|'Kids & Family'|'Romance'|'Sci-Fi'|'Thriller'>('all');
+  const [activeGenre, setActiveGenre] = useState<'all'|'Action'|'Adventure'|'Comedy'|'Crime'|'Documentary'|'Drama'|'Horror'|'Kids & Family'|'Romance'|'Sci-Fi'|'Thriller'>('all');
 
   useEffect(() => {
     dispatch(switchGenre(activeGenre));
@@ -21,6 +21,24 @@ function GenresList() {
       >
         <Link to="#" className="catalog__genres-link">
           All genres
+        </Link>
+      </li>
+      <li className={cn('catalog__genres-item', {'catalog__genres-item--active': activeGenre === 'Action'})}
+        onClick={()=>{
+          setActiveGenre('Action');
+        }}
+      >
+        <Link to="#" className="catalog__genres-link">
+          Actions
+        </Link>
+      </li>
+      <li className={cn('catalog__genres-item', {'catalog__genres-item--active': activeGenre === 'Adventure'})}
+        onClick={()=>{
+          setActiveGenre('Adventure');
+        }}
+      >
+        <Link to="#" className="catalog__genres-link">
+          Adventures
         </Link>
       </li>
       <li className={cn('catalog__genres-item', {'catalog__genres-item--active': activeGenre === 'Comedy'})}
