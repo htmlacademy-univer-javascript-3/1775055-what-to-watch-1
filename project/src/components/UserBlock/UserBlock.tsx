@@ -2,10 +2,11 @@ import { Link } from 'react-router-dom';
 import { AppRoute, AuthStatus } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { logoutAction } from '../../store/api-actions';
+import { getAuthStatus } from '../../store/user-process/selectors';
 
 function UserBlock() {
   const dispatch = useAppDispatch();
-  const {authStatus} = useAppSelector((state)=> state);
+  const authStatus = useAppSelector(getAuthStatus);
 
   return (
     <ul className="user-block">

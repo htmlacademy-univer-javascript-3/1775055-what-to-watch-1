@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import {Link} from 'react-router-dom';
 
 function Logo() {
@@ -12,4 +13,4 @@ function Logo() {
   );
 }
 
-export default Logo;
+export default memo(Logo);

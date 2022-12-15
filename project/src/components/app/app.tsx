@@ -8,19 +8,22 @@ import NotFoundPage from '../../pages/NotFoundPage/NotFoundPage';
 import Player from '../../pages/Player/Player';
 import SignIn from '../../pages/SignIn/SignIn';
 import StartScreen from '../../pages/StartScreen/StartScreen';
-// import { addReview } from '../../types/review';
 import PrivateRoute from '../PrivateRoute/PrivateRoute';
 import LoadingScreen from '../../pages/LoadingScreen/LoadingScreen';
 import HistoryRouter from '../HistoryRouter/HistoryRouter';
 import browserHistory from '../../browser-history';
+import { getAuthStatus } from '../../store/user-process/selectors';
+import { getFilms, getLoadedDataStatus } from '../../store/data-process/selectors';
+import { getFilm } from '../../store/film-process/selectors';
 
 const isCheckedAuth = (authStatus: AuthStatus): boolean =>
   authStatus === AuthStatus.Unknown;
 
 function App(): JSX.Element {
-  const {authStatus, isDataLoaded} = useAppSelector((state) => state);
-  const {films} = useAppSelector((state) => state);
-  const filmData = useAppSelector((state)=> state.film);
+  const authStatus = useAppSelector(getAuthStatus);
+  const isDataLoaded = useAppSelector(getLoadedDataStatus);
+  const films = useAppSelector(getFilms);
+  const filmData = useAppSelector(getFilm);
 
   if (isCheckedAuth(authStatus) || isDataLoaded) {
     return (
@@ -47,10 +50,7 @@ function App(): JSX.Element {
           path = {AppRoute.MyList}
           element = {
             <PrivateRoute authStatus={authStatus}>
-              <MyList
-                films = {films}
-                numberFilmsShow = {films.length}
-              />
+              <MyList/>
             </PrivateRoute>
           }
         />
@@ -68,7 +68,7 @@ function App(): JSX.Element {
         />
         <Route
           path = {AppRoute.Player}
-          element = {<Player films = {films}/>}
+          element = {<Player filmData = {filmData}/>}
         />
         <Route
           path = {AppRoute.AddReview}
@@ -76,9 +76,6 @@ function App(): JSX.Element {
             <PrivateRoute authStatus={authStatus}>
               <AddReview
                 filmData = {filmData}
-                // onReview={({comment, rating}:addReview) => {
-                //   dispatch(postReviewAction({comment, rating}));
-                // }}
               />
             </PrivateRoute>
           }

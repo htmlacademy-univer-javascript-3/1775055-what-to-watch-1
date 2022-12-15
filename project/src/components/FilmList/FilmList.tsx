@@ -16,7 +16,6 @@ function FilmList({films, numberFilmsShow}:FilmListProps) {
             filmData={filmData}
             key={keyValue}
           />
-
         );
       })}
     </div>

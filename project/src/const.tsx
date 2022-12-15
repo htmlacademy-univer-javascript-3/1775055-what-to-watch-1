@@ -20,5 +20,13 @@ export enum APIRoute {
   Films = '/films',
   Login = '/login',
   Logout = '/logout',
-  Promo = '/promo'
+  Promo = '/promo',
+  MyList = '/favorite'
+}
+
+export enum NameSpace {
+  Data = 'DATA',
+  Film = 'FILM',
+  User = 'USER',
+  FilmList= 'FILM_LIST'
 }
