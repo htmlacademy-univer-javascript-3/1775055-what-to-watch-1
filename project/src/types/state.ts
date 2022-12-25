@@ -12,6 +12,7 @@ export type UserProcess = {
 };
 
 export type DataProcess = {
+  avatarUrl: string
   promo: film
   films: film[]
   isDataLoaded: boolean

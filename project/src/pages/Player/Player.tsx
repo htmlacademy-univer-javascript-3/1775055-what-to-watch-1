@@ -1,19 +1,25 @@
 import moment from 'moment';
-import { useEffect, useRef, useState } from 'react';
+import { memo, useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { film } from '../../types/film';
+import { AppRoute } from '../../const';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { fetchFilmAction } from '../../store/api-actions';
+import { getFilms } from '../../store/data-process/selectors';
+import { getFilm } from '../../store/film-process/selectors';
 
-
-type PlayerProps = {
-  filmData: film
-}
-
-function Player({filmData}:PlayerProps) {
+function Player() {
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const params = useParams();
-  const FilmId = Number(params.id);
+  const filmId = Number(params.id);
   const playerRef = useRef<HTMLVideoElement | null>(null);
+  const films = useAppSelector(getFilms);
+
+  useEffect(()=>{filmId > films.length ? navigate(AppRoute.NotFound) : dispatch(fetchFilmAction(filmId));}, [filmId]);
+
+  const filmData = useAppSelector(getFilm);
   const [isPlaying, setIsPlaying] = useState(true);
+
 
   useEffect(() => {
     if (playerRef.current === null) {
@@ -21,21 +27,18 @@ function Player({filmData}:PlayerProps) {
     }
 
     if (isPlaying) {
-      playerRef.current.src = filmData.videoLink;
       playerRef.current.play();
-      return;
     }
 
     if (!isPlaying) {
-      playerRef.current.src = '';
+      playerRef.current.pause();
     }
-  }, [filmData.videoLink, isPlaying]);
-
+  }, [isPlaying]);
 
   return (
     <div className="player">
-      <video width="100%" height="100%" poster={filmData.backgroundImage} ref={playerRef}/>
-      <button type="button" className="player__exit" onClick={()=>{navigate(`/films/${FilmId}`);}}>Exit</button>
+      <video className="player__video" width="100%" height="100%" poster={filmData.backgroundImage} ref={playerRef} src={filmData.videoLink}/>
+      <button type="button" className="player__exit" onClick={()=>{navigate(`/films/${filmId}`);}}>Exit</button>
       <div className="player__controls">
         <div className="player__controls-row">
           <div className="player__time">
@@ -61,7 +64,7 @@ function Player({filmData}:PlayerProps) {
                 <span>Play</span>
               </>}
           </button>
-          <div className="player__name">Transpotting</div>
+          <div className="player__name">{filmData.name}</div>
           <button type="button" className="player__full-screen">
             <svg viewBox="0 0 27 27" width={27} height={27}>
               <use xlinkHref="#full-screen" />
@@ -74,4 +77,4 @@ function Player({filmData}:PlayerProps) {
   );
 }
 
-export default Player;
+export default memo(Player);

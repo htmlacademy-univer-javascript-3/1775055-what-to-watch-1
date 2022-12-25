@@ -12,6 +12,6 @@ export const getGenreFilms = createSelector(
   [getFilms, getGenre],
   (films, genre)=>{
     let genreFilms:film[];
-    genre === 'all' ? genreFilms = films : genreFilms = films.filter((filmD) => filmD.genre === genre);
+    genre === 'All genres' ? genreFilms = films : genreFilms = films.filter((filmD) => filmD.genre === genre);
     return genreFilms;
   });

@@ -116,16 +116,17 @@ export const checkAuthAction = createAsyncThunk<void, undefined, {
   },
 );
 
-export const loginAction = createAsyncThunk<void, AuthData, {
+export const loginAction = createAsyncThunk<string, AuthData, {
   dispatch: AppDispatch,
   state: State,
   extra: AxiosInstance
 }>(
   'user/login',
   async ({ email, password}, {dispatch, extra: api}) => {
-    const {data: {token}} = await api.post<UserData>(APIRoute.Login, {email, password});
+    const {data: {token, avatarUrl}} = await api.post<UserData>(APIRoute.Login, {email, password});
     saveToken(token);
     dispatch(redirectToRoute(AppRoute.Main));
+    return avatarUrl;
   },
 );
 
