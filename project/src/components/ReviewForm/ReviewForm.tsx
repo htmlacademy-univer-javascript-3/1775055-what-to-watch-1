@@ -2,7 +2,6 @@ import { FormEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../hooks';
 import { postReviewAction } from '../../store/api-actions';
-// import { addReview } from '../../types/review';
 
 type ReviewFormProps = {
   id: number
@@ -21,9 +20,6 @@ function ReviewForm({id}:ReviewFormProps) {
         evt.preventDefault();
         dispatch(postReviewAction({comment, rating, id}));
         navigate(`/films/${id}`);
-        // eslint-disable-next-line no-console
-        console.log(rating, comment);
-        // onReview({comment, rating});
       }}
     >
       <div className="rating">

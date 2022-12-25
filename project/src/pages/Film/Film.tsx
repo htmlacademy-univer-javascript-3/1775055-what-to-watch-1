@@ -1,6 +1,5 @@
-import {Link, useNavigate, useParams} from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import Logo from '../../components/Logo/Logo';
-import {AppRoute, AuthStatus} from '../../const';
 import FilmNavList from '../../components/FilmNavList/FilmNavList';
 import { useEffect, useState } from 'react';
 import MoreLikeThisList from '../../components/MoreLikeThisList/MoreLikeThisList';
@@ -9,23 +8,23 @@ import { store } from '../../store';
 import { useAppSelector } from '../../hooks';
 import FilmTabs from '../../components/FilmTabs/FilmTabs';
 import UserBlock from '../../components/UserBlock/UserBlock';
+import { getFilm, getReviews, getSimilarFilms } from '../../store/film-process/selectors';
+import FilmCardButtons from '../../components/FilmCardButtons/FilmCardButtons';
 
 function Film() {
   const params = useParams();
-  const FilmId = Number(params.id);
-  const navigate = useNavigate();
-  const reviews = useAppSelector((state)=> state.reviews);
-  const filmData = useAppSelector((state)=> state.film);
-  const similarFilms = useAppSelector((state)=> state.similarFilms);
-  const authStatus = useAppSelector((state)=> state.authStatus);
+  const filmId = Number(params.id);
 
+  const reviews = useAppSelector(getReviews);
+  const filmData = useAppSelector(getFilm);
+  const similarFilms = useAppSelector(getSimilarFilms);
   const [tab, setTab] = useState<'overview'|'details'|'reviews'>('overview');
 
   useEffect(() => {
-    store.dispatch(fetchFilmAction(FilmId));
-    store.dispatch(fetchSimilarFilmsAction(FilmId));
-    store.dispatch(fetchReviewsAction(FilmId));
-  }, [FilmId]);
+    store.dispatch(fetchFilmAction(filmId));
+    store.dispatch(fetchSimilarFilmsAction(filmId));
+    store.dispatch(fetchReviewsAction(filmId));
+  }, [filmId]);
 
   const getType = (type: 'overview'|'details'|'reviews') => {
     setTab(type);
@@ -54,22 +53,7 @@ function Film() {
                 <span className="film-card__genre">{filmData.genre}</span>
                 <span className="film-card__year">{filmData.released}</span>
               </p>
-              <div className="film-card__buttons">
-                <button className="btn btn--play film-card__button" type="button" onClick={()=>navigate(`/player/${filmData.id}`)}>
-                  <svg viewBox="0 0 19 19" width={19} height={19}>
-                    <use xlinkHref="#play-s" />
-                  </svg>
-                  <span>Play</span>
-                </button>
-                <button className="btn btn--list film-card__button" type="button" onClick={()=>navigate(AppRoute.MyList)}>
-                  <svg viewBox="0 0 19 20" width={19} height={20}>
-                    <use xlinkHref="#add" />
-                  </svg>
-                  <span>My list</span>
-                  <span className="film-card__count">9</span>
-                </button>
-                {authStatus === AuthStatus.Auth && <Link to={`/films/${FilmId}/review`} className="btn film-card__button">Add review</Link>}
-              </div>
+              <FilmCardButtons filmId={filmId}/>
             </div>
           </div>
         </div>
@@ -85,7 +69,7 @@ function Film() {
             </div>
             <div className="film-card__desc">
               <nav className="film-nav film-card__nav">
-                <FilmNavList FilmId={FilmId} getType={getType}/>
+                <FilmNavList filmId={filmId} getType={getType}/>
               </nav>
               <FilmTabs type={tab} filmData={filmData} reviews={reviews}/>
             </div>
