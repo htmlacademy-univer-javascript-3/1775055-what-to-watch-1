@@ -1,9 +1,10 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {NameSpace} from '../../const';
 import {DataProcess} from '../../types/state';
-import {fetchFilmsAction, fetchPromoAction} from '../api-actions';
+import {fetchFilmsAction, fetchPromoAction, loginAction} from '../api-actions';
 
 const initialState: DataProcess = {
+  avatarUrl: '',
   promo: {
     id: 0,
     name: '',
@@ -39,6 +40,9 @@ export const dataProcess = createSlice({
       .addCase(fetchPromoAction.fulfilled, (state, action) => {
         state.promo = action.payload;
         state.isDataLoaded = false;
+      })
+      .addCase(loginAction.fulfilled, (state, action) => {
+        state.avatarUrl = action.payload;
       })
       .addCase(fetchFilmsAction.pending, (state) => {
         state.isDataLoaded = true;

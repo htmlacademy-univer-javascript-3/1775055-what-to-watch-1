@@ -1,19 +1,23 @@
-import { useParams } from 'react-router-dom';
-import Logo from '../../components/Logo/Logo';
-import FilmNavList from '../../components/FilmNavList/FilmNavList';
+import { useNavigate, useParams } from 'react-router-dom';
+import Logo from '../../components/logo/logo';
+import FilmNavList from '../../components/film-nav-list/film-nav-list';
 import { useEffect, useState } from 'react';
-import MoreLikeThisList from '../../components/MoreLikeThisList/MoreLikeThisList';
+import MoreLikeThisList from '../../components/more-like-this-list/more-like-this-list';
 import { fetchFilmAction, fetchReviewsAction, fetchSimilarFilmsAction } from '../../store/api-actions';
 import { store } from '../../store';
 import { useAppSelector } from '../../hooks';
-import FilmTabs from '../../components/FilmTabs/FilmTabs';
-import UserBlock from '../../components/UserBlock/UserBlock';
+import FilmTabs from '../../components/film-tabs/film-tabs';
+import UserBlock from '../../components/user-block/user-block';
 import { getFilm, getReviews, getSimilarFilms } from '../../store/film-process/selectors';
-import FilmCardButtons from '../../components/FilmCardButtons/FilmCardButtons';
+import FilmCardButtons from '../../components/film-card-buttons/film-card-buttons';
+import { getFilms } from '../../store/data-process/selectors';
+import { AppRoute } from '../../const';
 
 function Film() {
+  const navigate = useNavigate();
   const params = useParams();
   const filmId = Number(params.id);
+  const films = useAppSelector(getFilms);
 
   const reviews = useAppSelector(getReviews);
   const filmData = useAppSelector(getFilm);
@@ -21,7 +25,7 @@ function Film() {
   const [tab, setTab] = useState<'overview'|'details'|'reviews'>('overview');
 
   useEffect(() => {
-    store.dispatch(fetchFilmAction(filmId));
+    filmId > films.length ? navigate(AppRoute.NotFound) : store.dispatch(fetchFilmAction(filmId));
     store.dispatch(fetchSimilarFilmsAction(filmId));
     store.dispatch(fetchReviewsAction(filmId));
   }, [filmId]);

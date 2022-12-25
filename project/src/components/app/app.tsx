@@ -1,20 +1,19 @@
 import { Routes, Route } from 'react-router-dom';
 import { AppRoute, AuthStatus } from '../../const';
 import { useAppSelector } from '../../hooks';
-import AddReview from '../../pages/AddReview/AddReview';
-import Film from '../../pages/Film/Film';
-import MyList from '../../pages/MyList/MyList';
-import NotFoundPage from '../../pages/NotFoundPage/NotFoundPage';
-import Player from '../../pages/Player/Player';
-import SignIn from '../../pages/SignIn/SignIn';
-import StartScreen from '../../pages/StartScreen/StartScreen';
-import PrivateRoute from '../PrivateRoute/PrivateRoute';
-import LoadingScreen from '../../pages/LoadingScreen/LoadingScreen';
-import HistoryRouter from '../HistoryRouter/HistoryRouter';
+import AddReview from '../../pages/add-review/add-review';
+import Film from '../../pages/film/film';
+import MyList from '../../pages/my-list/my-list';
+import NotFoundPage from '../../pages/not-found-page/not-found-page';
+import Player from '../../pages/player/player';
+import SignIn from '../../pages/sign-in/sign-in';
+import StartScreen from '../../pages/start-screen/start-screen';
+import PrivateRoute from '../private-route/private-route';
+import LoadingScreen from '../../pages/loading-screen/loading-screen';
+import HistoryRouter from '../history-router/history-router';
 import browserHistory from '../../browser-history';
 import { getAuthStatus } from '../../store/user-process/selectors';
-import { getFilms, getLoadedDataStatus } from '../../store/data-process/selectors';
-import { getFilm } from '../../store/film-process/selectors';
+import { getLoadedDataStatus } from '../../store/data-process/selectors';
 
 const isCheckedAuth = (authStatus: AuthStatus): boolean =>
   authStatus === AuthStatus.Unknown;
@@ -22,8 +21,6 @@ const isCheckedAuth = (authStatus: AuthStatus): boolean =>
 function App(): JSX.Element {
   const authStatus = useAppSelector(getAuthStatus);
   const isDataLoaded = useAppSelector(getLoadedDataStatus);
-  const films = useAppSelector(getFilms);
-  const filmData = useAppSelector(getFilm);
 
   if (isCheckedAuth(authStatus) || isDataLoaded) {
     return (
@@ -37,14 +34,12 @@ function App(): JSX.Element {
         <Route
           path = {AppRoute.Main}
           element = {
-            <StartScreen
-              films = {films}
-            />
+            <StartScreen />
           }
         />
         <Route
-          path = {AppRoute.SignIn}
-          element = {<SignIn/>}
+          path = {authStatus === AuthStatus.NotAuth ? AppRoute.SignIn : AppRoute.Main}
+          element = {authStatus === AuthStatus.NotAuth ? <SignIn/> : <StartScreen/>}
         />
         <Route
           path = {AppRoute.MyList}
@@ -68,15 +63,13 @@ function App(): JSX.Element {
         />
         <Route
           path = {AppRoute.Player}
-          element = {<Player filmData = {filmData}/>}
+          element = {<Player/>}
         />
         <Route
           path = {AppRoute.AddReview}
           element = {
             <PrivateRoute authStatus={authStatus}>
-              <AddReview
-                filmData = {filmData}
-              />
+              <AddReview />
             </PrivateRoute>
           }
         />
