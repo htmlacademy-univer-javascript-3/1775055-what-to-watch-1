@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import {Link} from 'react-router-dom';
 
-function Logo() {
+function Logotype() {
   return (
     <div className="logo">
       <Link to='/' className="logo__link">
@@ -13,4 +13,4 @@ function Logo() {
   );
 }
 
-export default memo(Logo);
+export default memo(Logotype);

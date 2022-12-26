@@ -5,11 +5,11 @@ import GenresList from '../../components/genres-list/genres-list';
 import ShowMoreButton from '../../components/ui/show-more-button/show-more-button';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import UserBlock from '../../components/user-block/user-block';
-import Logo from '../../components/logo/logo';
 import { getGenreFilms, getNumberFilmsShow } from '../../store/film-list-process/selectors';
 import { filmListProcess } from '../../store/film-list-process/film-list-process';
 import { getPromo } from '../../store/data-process/selectors';
 import FilmCardButtons from '../../components/film-card-buttons/film-card-buttons';
+import Logotype from '../../components/logotype/logotype';
 
 function StartScreen() {
   const dispatch = useAppDispatch();
@@ -34,7 +34,7 @@ function StartScreen() {
         </div>
         <h1 className="visually-hidden">WTW</h1>
         <header className="page-header film-card__head">
-          <Logo/>
+          <Logotype/>
           <UserBlock/>
         </header>
         <div className="film-card__wrap">
