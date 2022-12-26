@@ -1,6 +1,6 @@
 import UserBlock from '../../components/user-block/user-block';
 import FilmList from '../../components/film-list/film-list';
-import Logo from '../../components/logo/logo';
+import Logotype from '../../components/logotype/logotype';
 import { useAppSelector } from '../../hooks';
 import { getMyList } from '../../store/film-list-process/selectors';
 
@@ -10,7 +10,7 @@ function MyList() {
   return (
     <div className="user-page">
       <header className="page-header user-page__head">
-        <Logo/>
+        <Logotype/>
         <h1 className="page-title user-page__title">My list <span className="user-page__film-count">{films.length}</span></h1>
         <UserBlock/>
       </header>

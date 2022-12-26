@@ -69,7 +69,7 @@ function FilmTabs({type, filmData, reviews}: FilmTabsProps) {
       {type === 'overview' &&
         <>
           <div className="film-rating">
-            <div className="film-rating__score">{filmData.rating.toFixed(1).replace('.', ',')}</div>
+            <div className="film-rating__score">{filmData.rating}</div>
             <p className="film-rating__meta">
               <span className="film-rating__level">{getTextRating(filmData.rating)}</span>
               <span className="film-rating__count">{filmData.scoresCount} ratings</span>

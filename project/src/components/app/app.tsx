@@ -2,10 +2,10 @@ import { Routes, Route } from 'react-router-dom';
 import { AppRoute, AuthStatus } from '../../const';
 import { useAppSelector } from '../../hooks';
 import AddReview from '../../pages/add-review/add-review';
-import Film from '../../pages/film/film';
+import FilmScreen from '../../pages/film-screen/film-screen';
 import MyList from '../../pages/my-list/my-list';
 import NotFoundPage from '../../pages/not-found-page/not-found-page';
-import Player from '../../pages/player/player';
+import PlayerFilm from '../../pages/player-film/player-film';
 import SignIn from '../../pages/sign-in/sign-in';
 import StartScreen from '../../pages/start-screen/start-screen';
 import PrivateRoute from '../private-route/private-route';
@@ -51,19 +51,19 @@ function App(): JSX.Element {
         />
         <Route
           path = {AppRoute.Film}
-          element = {<Film/>}
+          element = {<FilmScreen/>}
         />
         <Route
           path = {AppRoute.FilmDetails}
-          element = {<Film/>}
+          element = {<FilmScreen/>}
         />
         <Route
           path = {AppRoute.FilmReviews}
-          element = {<Film/>}
+          element = {<FilmScreen/>}
         />
         <Route
           path = {AppRoute.Player}
-          element = {<Player/>}
+          element = {<PlayerFilm/>}
         />
         <Route
           path = {AppRoute.AddReview}

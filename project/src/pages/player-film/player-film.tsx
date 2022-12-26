@@ -7,7 +7,7 @@ import { fetchFilmAction } from '../../store/api-actions';
 import { getFilms } from '../../store/data-process/selectors';
 import { getFilm } from '../../store/film-process/selectors';
 
-function Player() {
+function PlayerFilm() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const params = useParams();
@@ -77,4 +77,4 @@ function Player() {
   );
 }
 
-export default memo(Player);
+export default memo(PlayerFilm);

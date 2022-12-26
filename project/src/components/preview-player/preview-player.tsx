@@ -21,7 +21,7 @@ function PreviewPlayer({filmData, isPlaying}: PreviewPlayerProps) {
       return;
     }
 
-    if (!isPlaying) {
+    if (isPlaying === false) {
       previewRef.current.src = '';
     }
   }, [filmData.previewVideoLink, isPlaying]);

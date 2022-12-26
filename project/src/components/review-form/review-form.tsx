@@ -54,7 +54,7 @@ function ReviewForm({id}:ReviewFormProps) {
           onChange={(evt)=>{setComment(evt.target.value);}}
         />
         <div className="add-review__submit">
-          <button className="add-review__btn" type="submit" {...(comment.length < 50 || rating === 0 ? {disabled: true} : {disabled: false})}>Post</button>
+          <button className="add-review__btn" type="submit" {...(comment.length < 50 || comment.length > 400 || rating === 0 ? {disabled: true} : {disabled: false})}>Post</button>
         </div>
       </div>
     </form>

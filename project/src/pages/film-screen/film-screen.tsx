@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from 'react-router-dom';
-import Logo from '../../components/logo/logo';
+import Logotype from '../../components/logotype/logotype';
 import FilmNavList from '../../components/film-nav-list/film-nav-list';
 import { useEffect, useState } from 'react';
 import MoreLikeThisList from '../../components/more-like-this-list/more-like-this-list';
@@ -13,7 +13,7 @@ import FilmCardButtons from '../../components/film-card-buttons/film-card-button
 import { getFilms } from '../../store/data-process/selectors';
 import { AppRoute } from '../../const';
 
-function Film() {
+function FilmScreen() {
   const navigate = useNavigate();
   const params = useParams();
   const filmId = Number(params.id);
@@ -47,7 +47,7 @@ function Film() {
           </div>
           <h1 className="visually-hidden">WTW</h1>
           <header className="page-header film-card__head">
-            <Logo/>
+            <Logotype/>
             <UserBlock/>
           </header>
           <div className="film-card__wrap">
@@ -102,4 +102,4 @@ function Film() {
   );
 }
 
-export default Film;
+export default FilmScreen;
